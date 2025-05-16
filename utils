@@ -1,0 +1,82 @@
+#!/usr/bin/env sh
+#
+# pict - project initialization C-lang tool
+#
+# Author: June Bergeron
+# Date: May 16, 2025
+# License: MIT
+
+throw() {
+	echo "$1"
+	exit ${2:-1}
+}
+
+# -- help messages --
+
+# `pict [-h|--help]`
+main_help() {
+	cat <<EOF
+Project Initialization C-lang Tool
+
+Usage:
+	pict [OPTIONS] [COMMAND]
+
+Options:
+	-h, --help     Print help
+	-v, --version  Print version info
+
+Commands:
+	new     Create a new C project
+	init    Create a new C project in an existing directory
+
+See \`pict <command> --help\` for more information on a specific command
+EOF
+	return 0
+}
+
+# help message for `init` subcommand
+# `pict init [-h|--help]`
+init_help() {
+	cat <<EOF
+Create a new C project in an existing directory
+
+Usage:
+	pict init [OPTIONS] [PATH]
+
+Arguments:
+	[PATH]  [default: .]
+
+Options:
+    --git             Generate a .gitignore
+		--edition <YEAR>  Which C standard to use [possible values: c89, c94, c99, c11, c17, c23, c2y] (default: c99)
+	                      corresponds to the \`-std=\` option in the clang compiler
+-h, --help            Print help
+
+See \`pict init --help\` for more detailed information
+EOF
+	return 0
+}
+
+# help message for `new` subcommand
+# `pict new [-h|--help]`
+new_help() {
+	cat <<EOF
+Create a new C project at <path>
+
+Usage:
+	pict new [OPTIONS] <PATH>
+
+Arguments:
+	<PATH>
+
+Options:
+    --name <NAME>     Set the resulting package name, defaults to the directory name
+	  --git             Generate a .gitignore
+		--edition <YEAR>  Which C standard to use [possible values: c89, c94, c99, c11, c17, c23, c2y] (default: c99)
+	                      corresponds to the \`-std=\` option in the clang compiler
+-h, --help            Print help
+
+See \`pict new --help\` for more detailed information
+EOF
+	return 0
+}

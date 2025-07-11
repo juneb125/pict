@@ -1,4 +1,4 @@
-{ self, pkgs ? import <nixpkgs> {} }:
+{ pkgs, ... }:
 pkgs.mkShell {
   name = "pict-devshell";
   packages = [pkgs.just];

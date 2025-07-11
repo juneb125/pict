@@ -34,8 +34,8 @@ if you want to create the project directory, run\n\n\
 #include <stdio.h>
 
 int main() {
-\tprintf("Hello, world!\\n");
-\treturn 0;
+    printf("Hello, world!\\n");
+    return 0;
 }
 EOF
   if [ ! $? ]; then

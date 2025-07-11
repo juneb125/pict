@@ -36,6 +36,7 @@ int main() {
 	return 0;
 }
 EOF
+  $? || throw "failed to populate src/main.c with boilerplate"
 
 	return 0
 }
@@ -73,5 +74,4 @@ main() {
 	return $?
 }
 
-source ./utils
 main "$@"

@@ -9,6 +9,6 @@ build out_file='pict':
     cat src/utils > {{ out_file }}
     tail --lines=+2 src/main >> {{ out_file }}
 
-# clean out ./test/
+# remove any pre-populated pict
 clean:
-    rm -rf ./test/*
+    rm -f ./pict

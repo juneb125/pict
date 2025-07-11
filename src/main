@@ -3,75 +3,79 @@
 PICT_VERSION='0.1.0'
 
 throw() {
-	echo "$1"
-	exit ${2:-1}
+  echo "$1"
+  exit ${2:-1}
 }
 
 # create a new C project in an existing directory
 # `pict init [options] [path]`
 init() {
-	case "$1" in
-		("-h"|"--help")
-			init_help
-			return 0
-			;;
-	esac
+  case "$1" in
+    ("-h"|"--help")
+      init_help
+      return 0
+      ;;
+  esac
 
-	local target_dir=${1:-.}
+  local target_dir=${1:-.}
 
-	[[ -d $target_dir ]] || \
-		throw "error: ${target_dir} doesn't exist\n\
+
+  if [[ ! -d $target_dir ]]; then
+    throw "error: ${target_dir} doesn't exist\n\
 if you want to create the project directory, run\n\n\
 \tpict new [OPTIONS] <PATH>"
+  fi
 
-	mkdir -p $target_dir/{build/,src/} || throw "failed to create project directories"
+  mkdir -p $target_dir/{build/,src/} || throw "failed to create project directories"
 
-	touch $target_dir/src/main.c || throw "failed to create a main.c"
+  touch $target_dir/src/main.c || throw "failed to create a main.c"
 
-	cat <<EOF > $target_dir/src/main.c
+  cat <<EOF > $target_dir/src/main.c
 #include <stdio.h>
 
 int main() {
-	printf("Hello, world!\\n");
-	return 0;
+\tprintf("Hello, world!\\n");
+\treturn 0;
 }
 EOF
-  $? || throw "failed to populate src/main.c with boilerplate"
+  if [ ! $? ]; then
+    throw "failed to populate src/main.c with boilerplate"
+  fi
 
-	return 0
+  return 0
 }
 
 # create a new C project at <path>
 # `pict new [options] <path>`
 new() {
-	case "$1" in
-		("-h"|"--help")
-			new_help
-			return 0
-			;;
-	esac
+  case "$1" in
+    ("-h"|"--help")
+      new_help
+      return 0
+      ;;
+  esac
 
-	local target_dir=$1
+  local target_dir=$1
 
-	[[ ! -z $target_dir ]] || throw 'error: expected <PATH> as $1'
+  [[ ! -z $target_dir ]] || throw 'error: expected <PATH> as $1'
 
-	mkdir -p $target_dir && \
-		init $target_dir ${@:2}
+  mkdir -p $target_dir && \
+    init $target_dir ${@:2}
 
-	return $?
+  return $?
 }
 
 main() {
-	case "$1" in
-		("init") init ${@:2} ;;
-		("new") new ${@:2} ;;
-		("-h"|"--help") main_help ;;
-		("-v"|"--version") echo "pict $PICT_VERSION" ;;
-		(-*) throw "unknown flag" ;;
-		(*) throw "unknown subcommand" ;;
-	esac
+  case "$1" in
+    ("init") init ${@:2} ;;
+    ("new") new ${@:2} ;;
+    ("-h"|"--help") main_help ;;
+    ("-v"|"--version") echo "pict $PICT_VERSION" ;;
+    (-*) throw "unknown flag" ;;
+    (*) throw "unknown subcommand" ;;
+  esac
 
-	return $?
+  return $?
 }
 
 main "$@"

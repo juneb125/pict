@@ -1,12 +1,11 @@
 #!/usr/bin/env sh
-#
-# pict - project initialization C-lang tool
-#
-# Author: June Bergeron
-# Date: May 16, 2025
-# License: MIT
 
 PICT_VERSION='0.1.0'
+
+throw() {
+	echo "$1"
+	exit ${2:-1}
+}
 
 # create a new C project in an existing directory
 # `pict init [options] [path]`

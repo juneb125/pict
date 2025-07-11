@@ -1,15 +1,4 @@
 #!/usr/bin/env sh
-#
-# pict - project initialization C-lang tool
-#
-# Author: June Bergeron
-# Date: May 16, 2025
-# License: MIT
-
-throw() {
-	echo "$1"
-	exit ${2:-1}
-}
 
 # -- help messages --
 

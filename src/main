@@ -17,10 +17,10 @@ init() {
       ;;
   esac
 
-  local target_dir=${1:-.}
+  target_dir="${1:-.}"
 
 
-  if [[ ! -d $target_dir ]]; then
+  if [ ! -d $target_dir ]; then
     throw "error: ${target_dir} doesn't exist\n\
 if you want to create the project directory, run\n\n\
 \tpict new [OPTIONS] <PATH>"
@@ -53,22 +53,21 @@ new() {
       new_help
       return 0
       ;;
+    ("") throw "error: expected <PATH> as \$1"
   esac
 
-  local target_dir=$1
-
-  [[ ! -z $target_dir ]] || throw 'error: expected <PATH> as $1'
+  target_dir="$1"
 
   mkdir -p $target_dir && \
-    init $target_dir ${@:2}
+    init $target_dir "${@:2}"
 
   return $?
 }
 
 main() {
   case "$1" in
-    ("init") init ${@:2} ;;
-    ("new") new ${@:2} ;;
+    ("init") init "${@:2}" ;;
+    ("new") new "${@:2}" ;;
     ("-h"|"--help") main_help ;;
     ("-v"|"--version") echo "pict $PICT_VERSION" ;;
     (-*) throw "unknown flag" ;;

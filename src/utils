@@ -8,7 +8,7 @@ main_help() {
 Project Initialization C-lang Tool
 
 Usage:
-  pict [OPTIONS] [COMMAND]
+    pict [OPTIONS] [COMMAND]
 
 Options:
     -h, --help     Print help

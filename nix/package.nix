@@ -1,4 +1,4 @@
-{ pkgs, stdenv, ... }: let
+{ pkgs, lib, stdenv, ... }: let
   inherit (pkgs) just;
   just_bin = "${just}/bin/just";
 in
@@ -6,6 +6,7 @@ in
     name = "pict";
     version = "0.1.0";
     src = ./..;
+
     buildInputs = [just];
     buildPhase = ''
       ${just_bin} clean
@@ -15,4 +16,11 @@ in
       ${just_bin} build $out/bin/pict
       chmod +x $out/bin/pict
     '';
+
+    meta = with lib; {
+			description = "C project initializer";
+			homepage = "https://github.com/juneb125/pict";
+			license = licenses.mit;
+			platforms = platforms.all;
+    };
   }

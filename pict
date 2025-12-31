@@ -88,14 +88,14 @@ init() {
 
   target_dir="${1:-.}"
 
-
   if [ ! -d "$target_dir" ]; then
     throw "error: ${target_dir} doesn't exist\n\
 if you want to create the project directory, run\n\n\
 \tpict new [OPTIONS] <PATH>"
   fi
 
-  mkdir -p "$target_dir"/{build/,src/} || throw "failed to create project directories"
+  mkdir -p "$target_dir"/build "$target_dir"/src \
+    || throw "failed to create project directories"
 
   touch "$target_dir"/src/main.c || throw "failed to create a main.c"
 
@@ -123,17 +123,24 @@ new() {
   esac
 
   target_dir="$1"
+  shift
 
   mkdir -p "$target_dir" && \
-    init "$target_dir" "${@:2}"
+    init "$target_dir" "${@}"
 
   return $?
 }
 
 main() {
   case "$1" in
-    ("init") init "${@:2}" ;;
-    ("new") new "${@:2}" ;;
+    ("init")
+      shift
+      init "${@}"
+      ;;
+    ("new")
+      shift
+      new "${@}"
+      ;;
     ("-h"|"--help") main_help ;;
     ("-v"|"--version") echo "pict $PICT_VERSION" ;;
     (-*) throw "unknown flag" ;;

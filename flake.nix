@@ -6,22 +6,20 @@
   };
 
   outputs = { self, nixpkgs, }: let
-    forEachSystem = nixpkgs.lib.genAttrs [
+    systems = [
       "x86_64-linux"
       "aarch64-linux"
       "x86_64-darwin"
       "aarch64-darwin"
     ];
+    forEachSystem = f: nixpkgs.lib.genAttrs systems
+      (system: f nixpkgs.legacyPackages.${system});
   in {
-    packages = forEachSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
+    packages = forEachSystem (pkgs: {
       default = pkgs.callPackage ./package.nix {};
     });
 
-    devShells = forEachSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
+    devShells = forEachSystem (pkgs: {
       default = pkgs.callPackage ./shell.nix {};
     });
   };

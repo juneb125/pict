@@ -16,13 +16,13 @@
     packages = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in {
-      default = pkgs.callPackage ./nix/package.nix {};
+      default = pkgs.callPackage ./package.nix {};
     });
 
     devShells = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in {
-      default = pkgs.callPackage ./nix/shell.nix {};
+      default = pkgs.callPackage ./shell.nix {};
     });
   };
 }

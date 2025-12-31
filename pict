@@ -22,7 +22,7 @@ Commands:
 
 See \`pict <command> --help\` for more information on a specific command
 EOF
-  return 0
+  exit 0
 }
 
 # help message for `init` subcommand
@@ -45,7 +45,7 @@ Options:
 
 See \`pict init --help\` for more detailed information
 EOF
-  return 0
+  exit 0
 }
 
 # help message for `new` subcommand
@@ -69,24 +69,21 @@ Options:
 
 See \`pict new --help\` for more detailed information
 EOF
-  return 0
+  exit 0
 }
 
 PICT_VERSION='0.1.0'
 
 throw() {
-  echo "$1"
-  exit ${2:-1}
+  echo "$1" >&2
+  exit 1
 }
 
 # create a new C project in an existing directory
 # `pict init [options] [path]`
 init() {
   case "$1" in
-    ("-h"|"--help")
-      init_help
-      return 0
-      ;;
+    ("-h"|"--help") init_help ;;
   esac
 
   target_dir="${1:-.}"
@@ -121,11 +118,8 @@ EOF
 # `pict new [options] <path>`
 new() {
   case "$1" in
-    ("-h"|"--help")
-      new_help
-      return 0
-      ;;
-    ("") throw "error: expected <PATH> as \$1"
+    ("-h"|"--help") new_help ;;
+    ("") throw "error: expected <PATH> as \$1" ;;
   esac
 
   target_dir="$1"

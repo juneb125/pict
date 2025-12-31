@@ -2,7 +2,6 @@
 pkgs.mkShell {
   name = "pict-devshell";
   packages = with pkgs; [
-    just
     shellcheck
   ];
   shellHook = ''

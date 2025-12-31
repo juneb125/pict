@@ -92,17 +92,17 @@ init() {
   target_dir="${1:-.}"
 
 
-  if [ ! -d $target_dir ]; then
+  if [ ! -d "$target_dir" ]; then
     throw "error: ${target_dir} doesn't exist\n\
 if you want to create the project directory, run\n\n\
 \tpict new [OPTIONS] <PATH>"
   fi
 
-  mkdir -p $target_dir/{build/,src/} || throw "failed to create project directories"
+  mkdir -p "$target_dir"/{build/,src/} || throw "failed to create project directories"
 
-  touch $target_dir/src/main.c || throw "failed to create a main.c"
+  touch "$target_dir"/src/main.c || throw "failed to create a main.c"
 
-  cat <<EOF > $target_dir/src/main.c
+  cat <<EOF > "$target_dir"/src/main.c
 #include <stdio.h>
 
 int main() {
@@ -130,8 +130,8 @@ new() {
 
   target_dir="$1"
 
-  mkdir -p $target_dir && \
-    init $target_dir "${@:2}"
+  mkdir -p "$target_dir" && \
+    init "$target_dir" "${@:2}"
 
   return $?
 }

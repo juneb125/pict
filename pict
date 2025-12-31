@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+#
+# pict - quickly initialize C projects
 
 # -- Help Messages --
 # help message for the main command

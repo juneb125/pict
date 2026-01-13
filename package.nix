@@ -1,5 +1,5 @@
-{ stdenv, lib, ... }:
-stdenv.mkDerivation {
+{ stdenvNoCC, lib, ... }:
+stdenvNoCC.mkDerivation {
   name = "pict";
   version = "0.1.0";
   src = ./.;

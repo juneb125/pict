@@ -2,6 +2,8 @@
 #
 # pict - quickly initialize C projects
 
+{ # begin script
+
 # -- Help Messages --
 # help message for the main command
 # `pict [-h|--help]`
@@ -151,3 +153,5 @@ main() {
 }
 
 main "$@"
+
+} # end script

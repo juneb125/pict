@@ -22,7 +22,7 @@ Commands:
     new     Create a new C project
     init    Create a new C project in an existing directory
 
-See \`pict <command> --help\` for more information on a specific command
+Run \`pict <command> --help\` for more information on a specific command
 EOF
   exit 0
 }
@@ -40,12 +40,10 @@ Arguments:
     [PATH]  [default: .]
 
 Options:
-    --git             Generate a .gitignore
-    --edition <YEAR>  Which C standard to use [possible values: c89, c94, c99, c11, c17, c23, c2y] (default: c99)
-                        corresponds to the \`-std=\` option in the clang compiler
-    -h, --help        Print help
+        --git   Generate a .gitignore
+    -h, --help  Print help
 
-See \`pict init --help\` for more detailed information
+Run \`pict init --help\` for more detailed information
 EOF
   exit 0
 }
@@ -63,17 +61,16 @@ Arguments:
     <PATH>
 
 Options:
-    --name <NAME>     Set the resulting package name, defaults to the directory name
-    --git             Generate a .gitignore
-    --edition <YEAR>  Which C standard to use [possible values: c89, c94, c99, c11, c17, c23, c2y] (default: c99)
-                        corresponds to the \`-std=\` option in the clang compiler
-    -h, --help        Print help
+        --name <NAME>  Set the resulting package name, defaults to the directory name
+        --git          Generate a .gitignore
+    -h, --help         Print help
 
-See \`pict new --help\` for more detailed information
+Run \`pict new --help\` for more detailed information
 EOF
   exit 0
 }
 
+# -- Implementation --
 PICT_VERSION='0.1.0'
 
 throw() {
@@ -109,9 +106,7 @@ int main() {
     return 0;
 }
 EOF
-  if [ ! $? ]; then
-    throw "failed to populate src/main.c with boilerplate"
-  fi
+  $? || throw "failed to populate src/main.c with boilerplate"
 
   return 0
 }
@@ -127,26 +122,20 @@ new() {
   target_dir="$1"
   shift
 
-  mkdir -p "$target_dir" && \
-    init "$target_dir" "${@}"
+  mkdir -p "$target_dir" \
+    && init "$target_dir" "${@}"
 
   return $?
 }
 
 main() {
   case "$1" in
-    ("init")
-      shift
-      init "${@}"
-      ;;
-    ("new")
-      shift
-      new "${@}"
-      ;;
-    ("-h"|"--help") main_help ;;
+    ("init") shift; init "${@}" ;;
+    ("new")  shift; new "${@}"  ;;
+    ("-h"|"--help") main_help   ;;
     ("-v"|"--version") echo "pict $PICT_VERSION" ;;
-    (-*) throw "unknown flag" ;;
-    (*) throw "unknown subcommand" ;;
+    (-*) throw "unknown option: ${1}" ;;
+    (*)  throw "unknown argument: ${1}" ;;
   esac
 
   return $?

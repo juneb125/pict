@@ -15,6 +15,7 @@ stdenvNoCC.mkDerivation {
     description = "C project initializer";
     homepage = "https://github.com/juneb125/pict";
     license = lib.licenses.mit;
+    maintainers = with lib.maintainers; [ juneb125 ];
     platforms = lib.platforms.all;
   };
 }

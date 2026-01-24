@@ -16,7 +16,7 @@
       (system: f nixpkgs.legacyPackages.${system});
   in {
     packages = forEachSystem (pkgs: {
-      default = pkgs.callPackage ./package.nix {};
+      default = pkgs.callPackage ./package.nix {platforms = systems;};
     });
 
     devShells = forEachSystem (pkgs: {

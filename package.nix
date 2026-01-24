@@ -1,6 +1,6 @@
-{ stdenvNoCC, lib, ... }:
+{ stdenvNoCC, lib, platforms, ... }:
 stdenvNoCC.mkDerivation {
-  name = "pict";
+  pname = "pict";
   version = "0.1.0";
   src = lib.fileset.toSource {
     root = ./.;
@@ -19,6 +19,6 @@ stdenvNoCC.mkDerivation {
     homepage = "https://github.com/juneb125/pict";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ juneb125 ];
-    platforms = lib.platforms.all;
+    inherit platforms;
   };
 }

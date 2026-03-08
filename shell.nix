@@ -1,4 +1,8 @@
-{ pkgs, ... }:
+{
+  system ? builtins.currentSystem,
+  pkgs ? import <nixpkgs> {inherit system;},
+  ...
+}:
 pkgs.mkShell {
   name = "pict-devshell";
   packages = with pkgs; [

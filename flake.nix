@@ -20,7 +20,7 @@
     });
 
     devShells = forEachSystem (pkgs: {
-      default = pkgs.callPackage ./shell.nix {};
+      default = pkgs.callPackage ./shell.nix;
     });
   };
 }

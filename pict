@@ -5,7 +5,7 @@
 { # begin script
 
 # -- Help Messages --
-# help message for the main command
+# help message for the main command {{{1
 # `pict [-h|--help]`
 main_help() {
   cat <<EOF
@@ -27,7 +27,7 @@ EOF
   exit 0
 }
 
-# help message for `init` subcommand
+# help message for `init` subcommand {{{1
 # `pict init [-h|--help]`
 init_help() {
   cat <<EOF
@@ -48,7 +48,7 @@ EOF
   exit 0
 }
 
-# help message for `new` subcommand
+# help message for `new` subcommand {{{1
 # `pict new [-h|--help]`
 new_help() {
   cat <<EOF
@@ -69,6 +69,7 @@ Run \`pict new --help\` for more detailed information
 EOF
   exit 0
 }
+# }}}1
 
 # -- Implementation --
 PICT_VERSION='0.1.0'
@@ -81,24 +82,24 @@ throw() {
 # create a new C project in an existing directory
 # `pict init [options] [path]`
 init() {
-  case "$1" in
+  case "${1}" in
     ("-h"|"--help") init_help ;;
   esac
 
   target_dir="${1:-.}"
 
-  if [ ! -d "$target_dir" ]; then
+  if [ ! -d "${target_dir}" ]; then
     throw "error: ${target_dir} doesn't exist\n\
 if you want to create the project directory, run\n\n\
 \tpict new [OPTIONS] <PATH>"
   fi
 
-  mkdir -p "$target_dir"/build "$target_dir"/src \
+  mkdir -p "${target_dir}"/build "${target_dir}"/src \
     || throw "failed to create project directories"
 
-  touch "$target_dir"/src/main.c || throw "failed to create a main.c"
+  touch "${target_dir}"/src/main.c || throw "failed to create a main.c"
 
-  cat <<EOF > "$target_dir"/src/main.c
+  cat > "${target_dir}"/src/main.c <<EOF
 #include <stdio.h>
 
 int main() {
@@ -116,24 +117,24 @@ EOF
 new() {
   case "$1" in
     ("-h"|"--help") new_help ;;
-    ("") throw "error: expected <PATH> as \$1" ;;
+    ("") throw "error: expected a path as the first argument" ;;
   esac
 
-  target_dir="$1"
+  target_dir="${1}"
   shift
 
-  mkdir -p "$target_dir" \
-    && init "$target_dir" "${@}"
+  mkdir -p "${target_dir}" \
+    && init "${target_dir}" "${@}"
 
   return $?
 }
 
 main() {
   case "$1" in
-    ("init") shift; init "${@}" ;;
-    ("new")  shift; new "${@}"  ;;
-    ("-h"|"--help") main_help   ;;
-    ("-v"|"--version") echo "pict $PICT_VERSION" ;;
+    ("init") shift; init "${@}"  ;;
+    ("new")  shift; new "${@}"   ;;
+    (""|"-h"|"--help") main_help ;;
+    ("-v"|"--version") echo "pict ${PICT_VERSION}" ;;
     (-*) throw "unknown option: ${1}" ;;
     (*)  throw "unknown argument: ${1}" ;;
   esac
